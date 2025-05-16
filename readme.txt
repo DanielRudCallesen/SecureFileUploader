@@ -1,0 +1,98 @@
+# Remember to use PowerShell for command syntaxes
+Secure Software Development Exam
+
+
+File Uploader
+
+
+Requirements: 
+Login system. (Use Argon2 for secure password hashing) 
+Authenticated and Authorized users can upload files.
+File is run through NClam to scan for malicious data 
+Only the uploading user (or those they authorize) can download and decrypt the file.
+Files are encrypted before saving to storage
+Keys are user-specific and managed securely? Duh
+
+
+Technology Stack:
+
+Backend server : Asp.net Core (C#)
+Frontend: MVC
+Database: SQL Server to store metadata and user information NOT files.
+File storage: Local file system (IFormFile)
+Encryption: Use libraries like System.Security.Cryptography
+Authentication: ASP.NET Identity
+Authorization: Using Role-Based authorization 
+
+Design Structure:
+
+[Client Side]
+- Login site
+- User uploads a file
+
+[Backend API]
+Authenticate the user
+Authorize user
+Generate a random file encryption key (AES)
+Encrypt file content
+Scan file with NClam
+Encrypt AES key with user's public RSA key
+Save encrypted file + encrypted key + metadata
+
+[Database]
+Metadata: filename, ownerId, encrypted AES key, storage location??
+Login: Username, Email, Password
+
+[File Storage]
+Local File Storage
+
+[Share authorization to download]
+E-mail invitation?
+
+[Download]
+User authenticates
+Fetch encrypted file and encrypted key
+Decrypt AES key with user's private RSA key
+Decrypt file locally (Or in a backend environment? No sure)
+
+
+
+Security Considerations:
+
+[Key Mangement]
+Each user has their own RSA key pair (2048 bit). Private key must be encrypted and securely stored (e.g. password-protected)
+
+[File Validation]
+Check file type and size and run through anti-virus program BEFORE encryption to avoid trash uploads.
+
+[Strong Encryption]
+Use AES-256 for file content encryption
+
+[Public/Private Key use]
+Public key, safe to store. Private key must be protected. Could store private key encrypted with user password?
+
+[Authentication]
+Requrire strong user authtication (Maybe multi-factor)
+
+[Logging]
+Log all upload/download actions for traceability.
+
+
+Flow detailed:
+
+[Upload]
+1. User authenticates (Login)
+2. Backend generates a random AES key (256 bits)
+3. User Uploads File
+4. Scans the file with NClam
+5. Backend encrypts the file using AES key.
+6. Encrypt AES with user's public RSA key
+7. Store: Encrypted file (File storage) and Encrypted AES key + metadata (Database)
+
+
+[Download]
+1. User authenticates.
+2. Backend fetches: Encrypted file and encrypted AES key
+3. Backend sends both to user
+4. User decrypts AES key with their private RSA key
+5. User decrypts file with AES key.

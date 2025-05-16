@@ -1,0 +1,62 @@
+@model SecureFileUploader.Web.Models.File.AcceptShareViewModel
+
+@{
+    ViewData["Title"] = "Accept Shared File";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Accept Shared File</h2>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <div class="alert alert-info" role="alert">
+                            <h5 class="alert-heading">
+                                <i class="bi bi-shield-lock"></i> Secure File Sharing
+                            </h5>
+                            <p>
+                                <strong>@Model.SharedByName</strong> has shared a file with you: <strong>@Model.FileName</strong>
+                            </p>
+                            <p class="mb-0">
+                                To access this file, you'll need the file owner's password to decrypt the encryption key.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <form asp-action="AcceptShare" method="post">
+                        <input type="hidden" asp-for="InvitationId" />
+                        <input type="hidden" asp-for="FileName" />
+                        <input type="hidden" asp-for="SharedByName" />
+                        
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+                        <div class="mb-3">
+                            <label asp-for="OwnerPassword" class="form-label"></label>
+                            <input asp-for="OwnerPassword" class="form-control" placeholder="Enter the file owner's password" />
+                            <span asp-validation-for="OwnerPassword" class="text-danger"></span>
+                            <div class="form-text">
+                                Please ask the file owner for their password. This is needed to decrypt the file securely.
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-unlock"></i> Accept File
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} 

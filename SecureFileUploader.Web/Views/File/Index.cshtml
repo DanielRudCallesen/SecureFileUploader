@@ -1,0 +1,140 @@
+@model SecureFileUploader.Web.Models.File.FileListViewModel
+
+@{
+    ViewData["Title"] = "My Files";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>My Files</h1>
+        <a asp-action="Upload" class="btn btn-primary">
+            <i class="bi bi-cloud-upload"></i> Upload New File
+        </a>
+    </div>
+    
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    
+    <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">My Uploaded Files</h2>
+        </div>
+        <div class="card-body">
+            @if (Model.OwnedFiles.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Type</th>
+                                <th>Size</th>
+                                <th>Upload Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var file in Model.OwnedFiles)
+                            {
+                                <tr>
+                                    <td>@file.FileName</td>
+                                    <td>@file.ContentType</td>
+                                    <td>@(file.FileSize / 1024) KB</td>
+                                    <td>@file.UploadDate.ToLocalTime().ToString("g")</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a asp-action="Download" asp-route-id="@file.Id" class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-download"></i> Download
+                                            </a>
+                                            <a asp-action="Share" asp-route-id="@file.Id" class="btn btn-sm btn-outline-success">
+                                                <i class="bi bi-share"></i> Share
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@file.Id" class="btn btn-sm btn-outline-danger">
+                                                <i class="bi bi-trash"></i> Delete
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center p-4">
+                    <p class="mb-3">You haven't uploaded any files yet.</p>
+                    <a asp-action="Upload" class="btn btn-primary">
+                        <i class="bi bi-cloud-upload"></i> Upload Your First File
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+    
+    <div class="card shadow">
+        <div class="card-header bg-success text-white">
+            <h2 class="mb-0">Files Shared With Me</h2>
+        </div>
+        <div class="card-body">
+            @if (Model.SharedFiles.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Size</th>
+                                <th>Type</th>
+                                <th>Shared By</th>
+                                <th>Shared Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var file in Model.SharedFiles)
+                            {
+                                <tr>
+                                    <td>@file.FileName</td>
+                                    <td>@(file.FileSize / 1024) KB</td>
+                                    <td>@file.ContentType</td>
+                                    <td>@file.SharedBy</td>
+                                    <td>@file.UploadDate.ToString("g")</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <a asp-action="AccessShared" asp-route-id="@file.Id" class="btn btn-sm btn-primary">
+                                                <i class="bi bi-key"></i> Access
+                                            </a>
+                                            <a asp-action="RemoveShared" asp-route-id="@file.Id" class="btn btn-sm btn-danger">
+                                                <i class="bi bi-x-circle"></i> Remove
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info m-3">
+                    <i class="bi bi-info-circle"></i> No files have been shared with you yet.
+                </div>
+            }
+        </div>
+    </div>
+</div> 

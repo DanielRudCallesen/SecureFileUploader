@@ -1,0 +1,38 @@
+@model SecureFileUploader.Web.Models.File.RemoveSharedFileViewModel
+
+@{
+    ViewData["Title"] = "Remove Shared File";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">Remove Shared File</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h5 class="mb-3">@Model.FileName</h5>
+                        <p class="text-muted">Shared by: @Model.SharedBy</p>
+                        <p>Size: @(Model.FileSize / 1024) KB</p>
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <strong>Warning:</strong> Are you sure you want to remove this file from your shared files?
+                    </div>
+                    
+                    <form asp-action="RemoveSharedConfirm" method="post">
+                        <input type="hidden" asp-for="FileId" />
+                        
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-danger">Remove File</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

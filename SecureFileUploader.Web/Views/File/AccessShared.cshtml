@@ -1,0 +1,46 @@
+@model SecureFileUploader.Web.Models.File.AccessCodeViewModel
+
+@{
+    ViewData["Title"] = "Access Shared File";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Access Shared File</h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="mb-3">@Model.FileName</h5>
+                    <p class="text-muted">Shared by: @Model.SharedBy</p>
+                    
+                    <hr class="my-4">
+                    
+                    <p>This file is protected with an access code. Please enter the access code that was sent to you in the invitation email.</p>
+                    
+                    <form asp-action="AccessShared" method="post">
+                        <input type="hidden" asp-for="FileId" />
+                        <input type="hidden" asp-for="FileName" />
+                        <input type="hidden" asp-for="SharedBy" />
+                        
+                        <div class="form-group mb-3">
+                            <label asp-for="AccessCode" class="form-label">Access Code</label>
+                            <input asp-for="AccessCode" class="form-control" placeholder="Enter access code" />
+                            <span asp-validation-for="AccessCode" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">Download File</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

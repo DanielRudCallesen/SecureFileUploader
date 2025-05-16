@@ -1,0 +1,54 @@
+@model SecureFileUploader.Web.Models.File.DeleteFileViewModel
+
+@{
+    ViewData["Title"] = "Delete File";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h2 class="mb-0">Confirm Deletion</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle"></i> 
+                        Warning: This action cannot be undone. The file will be permanently deleted.
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h4>File Information</h4>
+                        <table class="table">
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.FileName)</th>
+                                <td>@Html.DisplayFor(model => model.FileName)</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.FileSize)</th>
+                                <td>@(Model.FileSize / 1024) KB</td>
+                            </tr>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.UploadDate)</th>
+                                <td>@Html.DisplayFor(model => model.UploadDate)</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <form asp-action="DeleteConfirm" method="post">
+                        <input type="hidden" asp-for="FileId" />
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Delete Permanently
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

@@ -1,0 +1,47 @@
+@model SecureFileUploader.Web.Models.File.SharedAccessViewModel
+@{
+    ViewData["Title"] = "Access Shared File";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0">Access Shared File</h2>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <h4 class="alert-heading">File Details</h4>
+                        <p><strong>File Name:</strong> @Model.FileName</p>
+                        <p><strong>Shared By:</strong> @Model.SharedBy</p>
+                        <p><strong>File Size:</strong> @(Model.FileSize / 1024) KB</p>
+                    </div>
+
+                    <form asp-action="SharedAccess" method="post">
+                        <input type="hidden" asp-for="InvitationId" />
+                        <input type="hidden" asp-for="FileName" />
+                        <input type="hidden" asp-for="FileSize" />
+                        <input type="hidden" asp-for="ContentType" />
+                        <input type="hidden" asp-for="SharedBy" />
+
+                        <div class="form-group">
+                            <label asp-for="AccessCode" class="control-label"></label>
+                            <input asp-for="AccessCode" class="form-control" placeholder="Enter the access code from your email" />
+                            <span asp-validation-for="AccessCode" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mt-4">
+                            <button type="submit" class="btn btn-primary">Access File</button>
+                            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

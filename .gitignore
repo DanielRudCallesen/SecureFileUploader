@@ -1,0 +1,59 @@
+# .NET Core
+*.swp
+*.~
+project.lock.json
+.DS_Store
+*.pyc
+nupkg/
+
+# Visual Studio files
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+.vscode/
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# Visual Studio 2015/2017 cache/options directory
+.vs/
+
+
+# Secret files
+*.secret.json
+*.secret.*.json
+
+# User secret files
+.secrets/
+
+# Local storage folder
+SecureFileUploaderStorage/
+
+# Tools
+_ReSharper*/
+*.resharper
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+_TeamCity*
+*.dotCover
+
+# Logs
+logs/
+*.log
+
+# Environment variables
+.env 
