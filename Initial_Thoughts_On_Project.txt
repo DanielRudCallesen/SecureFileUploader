@@ -1,12 +1,9 @@
-# Remember to use PowerShell for command syntaxes
 Secure Software Development Exam
-
 
 File Uploader
 
-
 Requirements: 
-Login system. (Use Argon2 for secure password hashing) 
+Login system. Argon2 for secure password hashing
 Authenticated and Authorized users can upload files.
 File is run through NClam to scan for malicious data 
 Only the uploading user (or those they authorize) can download and decrypt the file.
@@ -19,7 +16,7 @@ Technology Stack:
 Backend server : Asp.net Core (C#)
 Frontend: MVC
 Database: SQL Server to store metadata and user information NOT files.
-File storage: Local file system (IFormFile)
+File storage: Local file system
 Encryption: Use libraries like System.Security.Cryptography
 Authentication: ASP.NET Identity
 Authorization: Using Role-Based authorization 
