@@ -65,7 +65,7 @@ namespace SecureFileUploader.Infrastructure.Files
             
             if (userKeyPair == null)
             {
-                throw new InvalidOperationException("User does not have encryption keys. Please set up your account first.");
+                throw new InvalidOperationException("User does not have encryption keys. How did you even get here?");
             }
             
             // Reset stream position after virus scan
